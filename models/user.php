@@ -8,12 +8,11 @@ function login($email, $password) {
 
     //echo password_hash($password, PASSWORD_BCRYPT); die;
     //echo $_password; die;
-
     //die($password);
 
     
 
-    $req = $bdd->prepare("SELECT * FROM user WHERE email = :email"); 
+    $req = $bdd->prepare("SELECT * FROM user WHERE email = :email AND activated=1"); 
     $req->bindParam(':email', $_email, PDO::PARAM_STR); 
     $req->execute();
 
