@@ -21,7 +21,7 @@
     <!-- Navbar -->
     <nav class="py-3 navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
       <div class="container">
-        <a href="index.php?page=index" class="navbar-brand">ToDo</a>
+        <a href="#" class="navbar-brand">ToDo</a>
 
         <button
           class="navbar-toggler"
@@ -34,17 +34,24 @@
 
         <div class="collapse navbar-collapse" id="navmenu">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="#" class="nav-link">Bienvenue, Invité</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Bienvenue, <?php echo $_SESSION['user']['first_name']; ?>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <?php if (in_array('admin', unserialize($_SESSION['user']['statuts']))): ?>
+                    <li><a class="dropdown-item" href="#">Gérer les utilisateurs</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Another action</a></li> -->
+                    <?php endif; ?>
+                    <li><a class="dropdown-item" href="index.php?page=logout">Déconnexion</a></li>
+                </ul>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-
     <main class='container main-container'>
-       <h1>Bienvenue sur notre page</h1>
-       <p>Veuillez vous connecter <a class="stretched-link" href="index.php?page=login">ici</a></p>
+        <h1>Taches</h1>
     </main>
 
     <script

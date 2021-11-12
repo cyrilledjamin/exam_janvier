@@ -14,7 +14,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="./views/css/styles.css" />
+    <link type="text/css" rel="stylesheet" href="./views/css/styles.css" >
     <title>Projet Janvier</title>
   </head>
   <body>
@@ -35,16 +35,32 @@
         <div class="collapse navbar-collapse" id="navmenu">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a href="#" class="nav-link">Bienvenue, Invité</a>
+              <a href="#" class="nav-link">Bienvenue, inconnu !</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+    <main class='container form-signin main-container'>
+        <form method="POST" action="index.php?page=login">
+            <h1 class="mb-3 h3 fw-normal">Veuillez vous connecter</h1>
 
-    <main class='container main-container'>
-       <h1>Bienvenue sur notre page</h1>
-       <p>Veuillez vous connecter <a class="stretched-link" href="index.php?page=login">ici</a></p>
+            <div class="form-floating">
+                <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Email</label>
+            </div>
+            <div class="form-floating">
+                <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+
+            <div class="mb-3 checkbox">
+                <label>
+                    <input name="remember-me" type="checkbox" value="remember-me"> Rester connecté
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Se connecter</button>
+        </form>
     </main>
 
     <script
