@@ -1,18 +1,17 @@
 <?php
 // Controlleur Global ou Routeur
 
-require_once('models/db_connection.php');
+include_once('Models/db_connection.php');
 
 if (!isset($_GET['page']) OR $_GET['page'] == 'index') {
-    require_once('controllers/index.php');
-} elseif( $_GET['page'] == 'login') {
-    require_once('controllers/login.php');
-} elseif($_GET['page'] == 'inscription') {
-    require_once('views/inscription.php');
+    include_once('Controllers/index.php');
+} elseif( $_GET['page'] == 'login'){
+    include_once('Controllers/login.php');
 } elseif( $_GET['page'] == 'dashboard'){
-    require_once('controllers/dashboard.php');
+    include_once('Controllers/dashboard.php');
 } elseif( $_GET['page'] == 'logout'){
-    require_once('controllers/logout.php');
-} else {
+    include_once('Controllers/logout.php');
+}
+else {
     header('Location: index.php');
 }

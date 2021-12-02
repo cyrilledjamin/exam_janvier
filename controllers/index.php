@@ -1,4 +1,11 @@
 <?php
+session_start();
 
-require_once('models/user.php');
-require_once('views/index.php');
+include_once('Models/user.php');
+
+if(isset($_SESSION['user'])){
+    header('Location: index.php?page=dashboard');
+} else {
+    include_once('Views/pages/index.php');
+}
+

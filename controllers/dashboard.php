@@ -2,8 +2,9 @@
 session_start();
 
 if(isset($_SESSION['user'])){
-    require_once('views/dashboard.php');
+    include_once('Views/pages/dashboard.php');
 } else {
     header('Location: index.php?page=login');
 }
+
 
