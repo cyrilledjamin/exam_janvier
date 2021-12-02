@@ -3,7 +3,7 @@
 
 try
 {
-    $bdd = new PDO('mysql:host=localhost;dbname=djamin_exam_bd;charset=utf8', 'root', '');
+    $bdd = new PDO('mysql:host=localhost;dbname=djamin-exam;charset=utf8', 'root', '76416558Gaus');
 }
 catch(Exception $e)
 {

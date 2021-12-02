@@ -8,7 +8,7 @@
                 <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput">Email</label>
             </div>
-            <div class="form-floating">
+            <div class="form-floating mt-3">
                 <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Password</label>
             </div>
@@ -20,6 +20,7 @@
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Se connecter</button>
         </form>
+        <p>Pas encore inscrit ? <a href="index.php?page=signup" class="text-decoration-none">Créez votre compte</a></p>
     </main>
 
   <?php include_once(__DIR__ . '/../partials/footer.php'); ?>
