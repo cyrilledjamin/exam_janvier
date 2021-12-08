@@ -1,31 +1,107 @@
 <?php 
+
+// Verification de l'email
+function check_email($email) {
+    $bdd = Database::getInstance();
+
+    try {
+        $req = $bdd->connection->prepare("SELECT * FROM user WHERE email = :email"); 
+        $req->bindParam(':email', $email, PDO::PARAM_STR); 
+        $req->execute();
+
+        $email_exists = $req->fetch(); 
+
+        if(!empty($email_exists)) {
+
+            return true;
+        } 
+        else {
+            return false;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }    
+}
+
+// Connexion d'un utilisateur
 function login($email, $password) { 
-    global  $bdd; 
+    $bdd = Database::getInstance(); 
 
     $_email = isset($email) ? $email : null;
     //$hash = password_hash($password, PASSWORD_BCRYPT);
     $_password = isset($password) ? $password : null;
 
-    //echo password_hash($password, PASSWORD_BCRYPT); die;
-    //echo $_password; die;
-    //die($password);
+    try {
+        $req = $bdd->connection->prepare("SELECT * FROM user WHERE email = :email"); 
+        $req->bindParam(':email', $_email, PDO::PARAM_STR); 
+        $req->execute();
 
+        $user = $req->fetch(); 
+
+        if(!empty($user) && password_verify($_password, $user['password'])) {
+
+            return $user;
+        } 
+        else {
+            return null;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }    
     
+}
 
-    $req = $bdd->prepare("SELECT * FROM user WHERE email = :email"); 
-    $req->bindParam(':email', $_email, PDO::PARAM_STR); 
-    $req->execute();
 
-    $user = $req->fetch(); 
+// Creation du compte d'un utilisateur
+function signin($prenom, $nom, $phone, $email, $password) { 
+    $bdd = Database::getInstance();
 
-    //die($user['password']);
-    //var_dump(password_verify($_password, $user['password'])); die;
+    $mot_de_passe_crypte = password_hash($password, PASSWORD_BCRYPT);
+    $isConnected = "Disconnected";
+    $status = 'a:1:{i:0;s:7:"ouvirer";}';
 
-    if(!empty($user) && password_verify($_password, $user['password'])) {
+    try {
+        $bdd->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,TRUE);
+        $req = $bdd->connection->prepare("INSERT INTO user (last_name, first_name, email, phone, password, isconnected, statuts, activated) VALUES (:nom, :prenom, :email, :phone, :password, :isconnected, :status, 0)"); 
+        $req->bindParam(':nom', $nom, PDO::PARAM_STR); 
+        $req->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
+        $req->bindParam(':email', $email, PDO::PARAM_STR); 
+        $req->bindParam(':phone', $phone, PDO::PARAM_STR); 
+        $req->bindParam(':password', $mot_de_passe_crypte, PDO::PARAM_STR); 
+        $req->bindParam(':isconnected', $isConnected, PDO::PARAM_STR); 
+        $req->bindParam(':status', $status, PDO::PARAM_STR); 
 
-        return $user;
-    } 
+        $bdd->connection->beginTransaction();//securisation de le requette
 
-    return [];
+        $req->execute();
+
+        $last_id = $bdd->connection->lastInsertId();
+
+        $bdd->connection->commit();//insertion des données
+        
+        // var_dump($last_id); die;
+
+        return $last_id;
+
+    } catch(Exception $e) {
+        $bdd->connection->rollback();
+        print "Error!: " . $e->getMessage() . "</br>";
+    }    
     
+}
+
+// Recuperer tous les utilisateurs
+function getUsers() {
+    $bdd = Database::getInstance();
+
+    try {
+        $req = $bdd->connection->prepare("SELECT * FROM user"); 
+        $req->execute();
+        $users = $req->fetchAll(); 
+
+        return $users;
+
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
 }
