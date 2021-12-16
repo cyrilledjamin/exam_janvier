@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 include_once('Models/user.php');
 
 if(isset($_SESSION['user'])){
-    if (in_array('admin', unserialize($_SESSION['user']['statuts']))) {
+    if ($_SESSION['user']['isconnected'] == 'Root') {
         $users = getUsers();
         include_once('Views/pages/manage_users.php');
     } else {
@@ -15,4 +15,3 @@ if(isset($_SESSION['user'])){
 } else {
     header('Location: index.php?page=login');
 }
-

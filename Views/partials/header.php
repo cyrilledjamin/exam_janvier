@@ -38,14 +38,14 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Bienvenue, 
                     <?php if (isset($_SESSION['user'])): ?>
-                        <?= $_SESSION['user']['first_name'] ?>
+                        <?= $_SESSION['user']['isconnected'] == 'Root' ? $_SESSION['user']['first_name'] .  " (Root)" : $_SESSION['user']['first_name'] ?>
                     <?php else: ?>
                         <?= "visiteur" ?>
                     <?php endif; ?>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <?php if (in_array('admin', unserialize($_SESSION['user']['statuts']))): ?>
+                        <?php if ($_SESSION['user']['isconnected'] == 'Root'): ?>
                         <li><a class="dropdown-item" href="index.php?page=dashboard">Mon espace</a></li>
                         <li><a class="dropdown-item" href="index.php?page=manage_users">Gérer les utilisateurs</a></li>
                         <li><a class="dropdown-item" href="#">Mon Compte</a></li>

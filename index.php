@@ -13,6 +13,8 @@ if (!isset($_GET['page']) OR $_GET['page'] == 'index') {
     include_once('Controllers/dashboard.php');
 } elseif( $_GET['page'] == 'manage_users'){
     include_once('Controllers/manage_users.php');
+} elseif( $_GET['page'] == 'user_edit'){
+    include_once('Controllers/user_edit.php');
 } elseif( $_GET['page'] == 'logout'){
     include_once('Controllers/logout.php');
 }

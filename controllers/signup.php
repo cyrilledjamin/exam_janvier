@@ -6,7 +6,6 @@ if (session_status() == PHP_SESSION_NONE) {
 
 $signup_errors = [];
 $signup_correct_data = [];
-$signup_success = "";
 
 include_once('models/user.php');
 
@@ -73,12 +72,10 @@ if(isset($_SESSION['user'])){
         $insertion = signin($prenom, $nom, $phone, $email, $password);
 
         if($insertion) {
-            $signup_success = "Votre compte a été créé avec success, veuillez vous connecter.";
-            $_SESSION['signup_success'] = $signup_success;
+            $_SESSION['signup_success'] = "Votre compte a été créé avec success, veuillez vous connecter.";
             header('Location: index.php?page=login');
         } else {
             $signup_errors['signup'] = "Une erreur est survenue lors de l'inscription";
-            header('Location: index.php?page=signup');
         }
 
     } else {
