@@ -12,10 +12,6 @@ include_once('models/user.php');
 if(isset($_SESSION['user'])){
     header('Location: index.php?page=dashboard');
 } else if(isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['repassword'])) {
-   
-    // $signup_correct_data['prenom'] = $_POST['prenom'];
-    // $signup_correct_data['nom'] = $_POST['nom'];
-    // $signup_correct_data['phone'] = $_POST['phone'];
     
     // Validation du prenom
     if(empty(trim($_POST['prenom']))) {
@@ -68,14 +64,16 @@ if(isset($_SESSION['user'])){
         $phone = $_POST['phone'];
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $accountType = $_POST['type_compte'];
         
-        $insertion = signin($prenom, $nom, $phone, $email, $password);
+        $insertion = signin($prenom, $nom, $phone, $email, $password, $accountType);
 
         if($insertion) {
             $_SESSION['signup_success'] = "Votre compte a été créé avec success, veuillez vous connecter.";
             header('Location: index.php?page=login');
         } else {
             $signup_errors['signup'] = "Une erreur est survenue lors de l'inscription";
+            header('Location: index.php?page=signup');
         }
 
     } else {

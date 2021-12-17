@@ -14,6 +14,8 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
     />
+    <!-- flatpickr Pour selection de date (https://unpkg.com/flatpickr@1.6.5/index.html) -->
+    <link rel="stylesheet" type="text/css" href="./views/css/flatpickr.min.css">
     <link rel="stylesheet" href="./views/css/style.css" />
     <title>Projet Janvier</title>
   </head>
