@@ -49,3 +49,4 @@ if(isset($_SESSION['user'])){
 } else {
     header('Location: index.php?page=login');
 }
+

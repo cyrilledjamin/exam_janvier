@@ -15,17 +15,19 @@ function getTasks() {
             T.etat,
             T.commanditaire,
             T.id_user,
+            E.id 'id_executant',
+            E.first_name 'prenom_executant',
+            E.last_name 'nom_executant',
             U.id 'id_auteur',
             U.first_name 'prenom_auteur',
             U.last_name 'nom_auteur'
 
             FROM tache T
             LEFT JOIN user U ON T.commanditaire=U.id
+            LEFT JOIN user E ON T.id_user=E.id
         "); 
         $req->execute();
         $tasks = $req->fetchAll(); 
-
-        // var_dump($tasks); die;
 
         return $tasks;
 
@@ -62,9 +64,9 @@ function getTaskById($task_id) {
 // Ajouter une tache
 function addTask($nomTache, $emmeteur, $descriptionTache, $dateDebutTache, $dateFinTache) {
     $bdd = Database::getInstance(); 
-    $etat_tache = 'EnAttente';
+    $etat_tache = 'EnCours';
     $emmeteur = intval($emmeteur);
-    //var_dump($etat_tache); die;
+    // $id_utilisateur = null;
 
     try {
         $bdd->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,TRUE);
@@ -85,6 +87,66 @@ function addTask($nomTache, $emmeteur, $descriptionTache, $dateDebutTache, $date
         $bdd->connection->commit();
 
         return $last_id;
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
+// Terminer une tache (Mise a jour de l'etat)
+function terminerTache($id_tache) {
+    $bdd = Database::getInstance();
+
+    try {
+        $req = $bdd->connection->prepare("UPDATE tache SET etat = 'Terminee' WHERE id = :id");   
+        $req->bindParam(':id', $id_tache, PDO::PARAM_STR);  
+        $update_successfull = $req->execute();
+
+        if($update_successfull){
+            return true;
+        } else {
+            return false;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
+// Mettre a jour une tache
+function updateTask($id_tache, $nomTache, $descriptionTache, $dateDebutTache, $dateFinTache) {
+    $bdd = Database::getInstance(); 
+    // var_dump( $nomTache); die;
+
+    try {
+        $req = $bdd->connection->prepare("UPDATE tache SET name = :name, description = :description, date_debut = :date_debut, date_fin = :date_fin WHERE id = :id"); 
+        $req->bindParam(':name', $nomTache, PDO::PARAM_STR);  
+        $req->bindParam(':description', $descriptionTache, PDO::PARAM_STR);  
+        $req->bindParam(':date_debut', $dateDebutTache, PDO::PARAM_STR);  
+        $req->bindParam(':date_fin', $dateFinTache, PDO::PARAM_STR);  
+        $req->bindParam(':id', $id_tache, PDO::PARAM_STR);  
+        $update_successfull = $req->execute();
+
+        if($update_successfull){
+            return true;
+        } else {
+            return false;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
+// Supprimer une tache
+function deleteTask($task_id) {
+    $bdd = Database::getInstance(); 
+
+    $id = isset($task_id) ? $task_id : null;
+
+    try {
+        $req = $bdd->connection->prepare("DELETE FROM tache WHERE id = :id"); 
+        $req->bindParam(':id', $id, PDO::PARAM_STR); 
+        $req->execute();
+
+        return true;
     } catch(Exception $e) {
         die('Erreur : '.$e->getMessage());
     }

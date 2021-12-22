@@ -12,6 +12,10 @@ include_once('models/user.php');
 if(isset($_SESSION['user'])){
     header('Location: index.php?page=dashboard');
 } else if(isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['repassword'])) {
+   
+    // $signup_correct_data['prenom'] = $_POST['prenom'];
+    // $signup_correct_data['nom'] = $_POST['nom'];
+    // $signup_correct_data['phone'] = $_POST['phone'];
     
     // Validation du prenom
     if(empty(trim($_POST['prenom']))) {
