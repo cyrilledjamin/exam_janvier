@@ -134,7 +134,21 @@ function getUsers() {
     $bdd = Database::getInstance();
 
     try {
-        $req = $bdd->connection->prepare("SELECT * FROM user"); 
+        $req = $bdd->connection->prepare("
+            SELECT
+            U.id,
+            U.last_name,
+            U.first_name,
+            U.email,
+            U.phone,
+            U.isconnected,
+            U.statuts,
+            U.activated,            
+            COUNT(T.id) AS nbre_taches
+            FROM user U
+            LEFT JOIN tache T ON T.id_user = U.id
+            GROUP BY U.id
+        "); 
         $req->execute();
         $users = $req->fetchAll(); 
 

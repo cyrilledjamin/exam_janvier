@@ -111,6 +111,26 @@ function terminerTache($id_tache) {
     }
 }
 
+// Attribuer une tache
+function attribuerTache($idTache, $idUser) {
+    $bdd = Database::getInstance();
+
+    try {
+        $req = $bdd->connection->prepare("UPDATE tache SET id_user = :id_user, etat='EnCours' WHERE id = :id"); 
+        $req->bindParam(':id_user', $idUser, PDO::PARAM_STR);  
+        $req->bindParam(':id', $idTache, PDO::PARAM_STR);  
+        $update_successfull = $req->execute();
+
+        if($update_successfull){
+            return true;
+        } else {
+            return false;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
 // Mettre a jour une tache
 function updateTask($id_tache, $nomTache, $descriptionTache, $dateDebutTache, $dateFinTache) {
     $bdd = Database::getInstance(); 

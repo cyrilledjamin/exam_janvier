@@ -11,10 +11,15 @@ $addTask_correct_data = [];
 
 if(isset($_SESSION['user'])){
     if ($_SESSION['user']['isconnected'] == 'Root' || $_SESSION['user']['isconnected'] == 'Client') {
+
        
         if(isset($_POST)) {
             
             $newTaskData = json_decode(file_get_contents("php://input"), false);
+
+            if($_SESSION['user']['isconnected'] == 'Root' && $newTaskData->attribuerTache == true) {
+                attribuerTache($newTaskData->idTache, $newTaskData->idUser);
+            }
 
             if($newTaskData->createTask == false) {
                 

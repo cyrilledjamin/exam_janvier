@@ -25,14 +25,10 @@
                 <td><?= $user["last_name"] ?></td>
                 <td><?= $user["email"] ?></td>
                 <td><?= implode(" - ", unserialize($user["statuts"])) ?></td>
-                <td> --</td>
+                <td><?= $user['nbre_taches'] ?></td>
                 <td><a href="index.php?page=user_edit&user_id=<?= $user["id"] ?>" class="btn btn-primary" ><i class="bi bi-pencil-square"></i></a></td>
             </tr>
 
             <?php endforeach; ?>
         </tbody>
         </table>
-      </div>
-    </main>
-
-<?php include_once(__DIR__ . '/../partials/footer.php'); ?>

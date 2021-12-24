@@ -169,6 +169,8 @@ function showModal(tacheId = null, tacheBrut = null) {
   }
 
   // modalBodyInput.value = "error";
+
+  // Afficher la fenetre modale
   taskModalPopup.show();
 }
 
@@ -203,6 +205,44 @@ function terminerTache(id) {
       location.href = "http://localhost/djamin/index.php?page=dashboard";
     }, 500);
   }
+}
+
+// Attribuer une tache
+function setTask(id_tache) {
+ 
+  let attribuerModalElement = document.getElementById("id_attribuer_tache");
+  let modalTitle = attribuerModalElement.querySelector("#id_attribuer_tache_titre");
+  let attribuerTacheModalPopup = new bootstrap.Modal(attribuerModalElement, {});
+
+  let listeTravailleurs = document.querySelector('#id_liste_travailleurs');
+  let boutonEnregisterOperation = document.querySelector("#id_enregistrer_tache_attribuee");
+
+  // Enregister en BD lorsque le bouton 'Enregister' est clique
+  boutonEnregisterOperation.addEventListener('click', (event) => {
+    if(listeTravailleurs.value != '0') {
+      sendAjax(
+        { idTache: id_tache, idUser:  listeTravailleurs.value, attribuerTache: true },
+        "http://localhost/djamin/index.php?page=task_add",
+        "POST",
+        function (err, data) {
+          if (err) {
+            throw err;
+          }
+          console.log("ok");
+          console.log(data);
+        }
+      );
+      
+      // Rediriger vers le Dashboard
+      location.href = "http://localhost/djamin/index.php?page=dashboard";
+    } else {
+      alert("Veuillez choisir un travailleur !!!");
+    }
+  });
+
+
+   // Afficher la fenetre modale
+   attribuerTacheModalPopup.show();
 }
 
 // #######################################################################################################################################################################
