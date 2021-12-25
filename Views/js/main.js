@@ -22,6 +22,30 @@ function sendAjax(data, url, method) {
   xhr.send(JSON.stringify(data));
 }
 
+//activer un utilisateur
+function activerUtilisateur(idUser) {
+  let activateCheckbox = document.querySelector("#id_activer_user");
+
+  if (activateCheckbox.checked) {
+    sendAjax(
+      { id: idUser },
+      "http://localhost/djamin/index.php?page=user_edit",
+      "POST",
+      function (err, data) {
+        if (err) {
+          throw err;
+        }
+        console.log("ok");
+        console.log(data);
+      }
+    );
+
+    setTimeout(function () {
+      location.href = "http://localhost/djamin/index.php?page=manage_users";
+    }, 500);
+  }
+}
+
 // Cette fonction Ajoute une nouvelle tache ou modifie une tache existante en fonction du parametre << tache >> qui a pour valeur par defaut << null >>
 function addTask() {
   const name = addTaskForm.querySelector("#id_taskName");

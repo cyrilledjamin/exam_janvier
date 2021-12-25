@@ -134,7 +134,6 @@ function attribuerTache($idTache, $idUser) {
 // Mettre a jour une tache
 function updateTask($id_tache, $nomTache, $descriptionTache, $dateDebutTache, $dateFinTache) {
     $bdd = Database::getInstance(); 
-    // var_dump( $nomTache); die;
 
     try {
         $req = $bdd->connection->prepare("UPDATE tache SET name = :name, description = :description, date_debut = :date_debut, date_fin = :date_fin WHERE id = :id"); 

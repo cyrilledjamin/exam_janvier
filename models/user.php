@@ -46,7 +46,11 @@ function login($email, $password, $connected_as) {
 
             if($user['isconnected'] !== "Disconnected") {
                 $request_result->success = false;
-                $request_result->message = 'Vous avez déjà été ouvert une session !';
+                $request_result->message = 'Vous avez déjà ouvert une session !';
+                return $request_result;
+            } else if($user['activated'] == '0'){
+                $request_result->success = false;
+                $request_result->message = 'Votre compte n\'est pas activé !';
                 return $request_result;
             } else if (in_array($_connected_as, unserialize($user['statuts']))) { // On verifie si le statut avec lequel l'utilisateur se connecte est bien parmis ceux qu'il possede en BD
                 
@@ -191,7 +195,6 @@ function updateUserStatus($user_id, $statuts) {
     $id = isset($user_id) ? $user_id : null;
     $statuts = isset($statuts) ? $statuts : null;
 
-    // var_dump($statuts); die;
 
     try {
         $req = $bdd->connection->prepare("UPDATE user SET statuts = :statuts WHERE id = :id"); 
@@ -223,6 +226,25 @@ function disconnect($user_id) {
 
         // On retourne l'etat de l'operation de mise a jour : true ou false
         return  $update_successfull;
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
+// Activation d'un utilisateur
+function userActivation($user_id) {
+    $bdd = Database::getInstance();
+    
+    try {
+        $req = $bdd->connection->prepare("UPDATE user SET activated = 1 WHERE id = :id"); 
+        $req->bindParam(':id', $user_id, PDO::PARAM_STR); 
+        $update_successfull = $req->execute();
+
+        if($update_successfull){
+            return true;
+        } else {
+            return false;
+        }
     } catch(Exception $e) {
         die('Erreur : '.$e->getMessage());
     }
