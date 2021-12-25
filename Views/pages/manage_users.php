@@ -12,7 +12,7 @@
                     <th scope="col">Nom</th>
                     <th scope="col">Email</th>
                     <th scope="col">Statuts</th>
-                    <th scope="col">Connected</th>
+                    <th scope="col">Connected / Disconnected</th>
                     <th scope="col">Nbre de tâches</th>
                     <th scope="col">Activé</th>
                     <th></th>
@@ -27,7 +27,7 @@
                     <td><?= $user["last_name"] ?></td>
                     <td><?= $user["email"] ?></td>
                     <td><?= implode(" - ", unserialize($user["statuts"])) ?></td>
-                    <td>--</td>
+                    <td align="center"><?php if($user["isconnected"] == 'Disconnected'){ echo "Non"; }else{echo "Oui"; } ?></td>
                     <td><?= $user['nbre_taches'] ?></td>
                     <td>
                         <div class="form-check form-switch">
