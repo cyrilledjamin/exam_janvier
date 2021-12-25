@@ -232,12 +232,16 @@ function disconnect($user_id) {
 }
 
 // Activation d'un utilisateur
-function userActivation($user_id) {
+function userActivation($user_id, $isActivated) {
     $bdd = Database::getInstance();
     
+    $activated = $isActivated == true ? 1 : 0; 
+    
     try {
-        $req = $bdd->connection->prepare("UPDATE user SET activated = 1 WHERE id = :id"); 
+        $req = $bdd->connection->prepare("UPDATE user SET activated = :activated WHERE id = :id"); 
+        $req->bindParam(':activated', $activated, PDO::PARAM_INT); 
         $req->bindParam(':id', $user_id, PDO::PARAM_STR); 
+        
         $update_successfull = $req->execute();
 
         if($update_successfull){

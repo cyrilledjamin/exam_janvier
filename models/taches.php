@@ -64,7 +64,7 @@ function getTaskById($task_id) {
 // Ajouter une tache
 function addTask($nomTache, $emmeteur, $descriptionTache, $dateDebutTache, $dateFinTache) {
     $bdd = Database::getInstance(); 
-    $etat_tache = 'EnCours';
+    $etat_tache = 'EnAttente';
     $emmeteur = intval($emmeteur);
     // $id_utilisateur = null;
 

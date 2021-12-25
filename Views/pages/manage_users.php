@@ -12,6 +12,7 @@
                     <th scope="col">Nom</th>
                     <th scope="col">Email</th>
                     <th scope="col">Statuts</th>
+                    <th scope="col">Connected</th>
                     <th scope="col">Nbre de tâches</th>
                     <th scope="col">Activé</th>
                     <th></th>
@@ -26,10 +27,11 @@
                     <td><?= $user["last_name"] ?></td>
                     <td><?= $user["email"] ?></td>
                     <td><?= implode(" - ", unserialize($user["statuts"])) ?></td>
+                    <td>--</td>
                     <td><?= $user['nbre_taches'] ?></td>
                     <td>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" onchange="activerUtilisateur(<?= $user['id'] ?>)" type="checkbox" name="activer_user" id="id_activer_user" <?php  if ($user['isconnected'] == 'Root' && $user["activated"] == 1) { echo "checked disabled"; } else { if ($user["activated"] == 1) { echo "checked"; } } ?> />
+                            <input class="form-check-input" onchange="activerUtilisateur(this, <?= $user['id'] ?>)" type="checkbox" name="activer_user_<?= $user['id'] ?>" id="id_activer_user_<?= $user['id'] ?>" <?php  if ($user['isconnected'] == 'Root' && $user["activated"] == 1) { echo "checked disabled"; } else { if ($user["activated"] == 1) { echo "checked"; } } ?> />
                         </div>
                     </td>
                     <td><a href="index.php?page=user_edit&user_id=<?= $user["id"] ?>" class="btn btn-primary" ><i class="bi bi-pencil-square"></i></a></td>

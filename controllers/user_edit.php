@@ -42,7 +42,7 @@ if(isset($_SESSION['user'])){
             }
         } else if(isset($_POST)) {
             $userActivation = json_decode(file_get_contents("php://input"), false);
-            userActivation($userActivation->id);
+            userActivation($userActivation->id, $userActivation->isChecked);
 
         } else {
             header('Location: index.php?page=manage_users');

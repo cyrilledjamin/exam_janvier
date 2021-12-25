@@ -23,12 +23,13 @@ function sendAjax(data, url, method) {
 }
 
 //activer un utilisateur
-function activerUtilisateur(idUser) {
-  let activateCheckbox = document.querySelector("#id_activer_user");
-
-  if (activateCheckbox.checked) {
+function activerUtilisateur(element, idUser) {
+ 
+  
+  if (element) {
+    
     sendAjax(
-      { id: idUser },
+      { id: idUser, isChecked: element.checked },
       "http://localhost/djamin/index.php?page=user_edit",
       "POST",
       function (err, data) {
