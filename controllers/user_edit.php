@@ -1,12 +1,15 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+} else {
+    $_SESSION['last_activity'] = time();
+    $_SESSION['expire'] = $_SESSION['last_activity'] + (15 * 60);
 }
 
 include_once('Models/user.php');
 
 if(isset($_SESSION['user'])){
-    if ($_SESSION['user']['isconnected'] == 'Root') {
+    if ( $_SESSION['user']['isconnected'] == 'Root') {
         if(isset($_GET['user_id'])) {
             if(isset($_POST['status_updated'])) {
                 // Mettre a jour le statut de l'utilisateur
@@ -42,8 +45,10 @@ if(isset($_SESSION['user'])){
             }
         } else if(isset($_POST)) {
             $userActivation = json_decode(file_get_contents("php://input"), false);
-            userActivation($userActivation->id, $userActivation->isChecked);
 
+            // var_dump($userActivation); die;
+
+            userActivation($userActivation->id, $userActivation->isChecked);
         } else {
             header('Location: index.php?page=manage_users');
         }

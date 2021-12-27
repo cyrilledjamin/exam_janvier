@@ -2,6 +2,9 @@
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+} else {
+    $_SESSION['last_activity'] = time();
+    $_SESSION['expire'] = $_SESSION['last_activity'] + (15 * 60);
 }
 
 include_once('Models/taches.php');
@@ -11,7 +14,6 @@ $addTask_correct_data = [];
 
 if(isset($_SESSION['user'])){
     if ($_SESSION['user']['isconnected'] == 'Root' || $_SESSION['user']['isconnected'] == 'Client') {
-
        
         if(isset($_POST)) {
             

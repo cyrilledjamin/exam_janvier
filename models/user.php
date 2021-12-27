@@ -23,6 +23,28 @@ function check_email($email) {
     }    
 }
 
+// Activation d'un utilisateur
+function userActivation($user_id, $isActivated) {
+    $bdd = Database::getInstance();
+
+    $activated = $isActivated == true ? 1 : 0; 
+    
+    try {
+        $req = $bdd->connection->prepare("UPDATE user SET activated = :activated WHERE id = :id"); 
+        $req->bindParam(':activated',$activated, PDO::PARAM_INT); 
+        $req->bindParam(':id', $user_id, PDO::PARAM_STR); 
+        $update_successfull = $req->execute();
+
+        if($update_successfull){
+            return true;
+        } else {
+            return false;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
 // Connexion d'un utilisateur
 function login($email, $password, $connected_as) { 
     $bdd = Database::getInstance(); 
@@ -46,9 +68,9 @@ function login($email, $password, $connected_as) {
 
             if($user['isconnected'] !== "Disconnected") {
                 $request_result->success = false;
-                $request_result->message = 'Vous avez déjà ouvert une session !';
+                $request_result->message = 'Vous avez déjà été ouvert une session !';
                 return $request_result;
-            } else if($user['activated'] == '0'){
+            } else if($user['activated'] == 0){
                 $request_result->success = false;
                 $request_result->message = 'Votre compte n\'est pas activé !';
                 return $request_result;
@@ -150,9 +172,9 @@ function getUsers() {
             U.activated,            
             COUNT(T.id) AS nbre_taches
             FROM user U
-            LEFT JOIN tache T ON T.id_user = U.id
+            LEFT JOIN tache T ON T.id_utilisateur = U.id
             GROUP BY U.id
-        "); 
+        ");  
         $req->execute();
         $users = $req->fetchAll(); 
 
@@ -188,6 +210,43 @@ function getUserById($user_id) {
     }
 }
 
+// Mettre a jour les informations d'un utilisateur
+function updateUserSettings($user_id, $data_to_update) {
+    $bdd = Database::getInstance();
+    
+    $sql = "";
+
+    if(isset($data_to_update['first_name'])) {
+        $sql .= "first_name = '" . $data_to_update['first_name'] . "'";
+    }
+    if(isset($data_to_update['last_name'])) {
+        $sql .= empty($sql) ? "last_name = '" . $data_to_update['last_name'] . "'" : (", last_name = '" . $data_to_update['last_name']) . "'";
+    }
+    if(isset($data_to_update['phone'])) {
+        $sql .= empty($sql) ? "phone = '" . $data_to_update['phone'] . "'" : (", phone = '" . $data_to_update['phone']) . "'";
+    }
+    if(isset($data_to_update['password'])) {
+        $password_crypte = password_hash($data_to_update['password'], PASSWORD_BCRYPT);
+        $sql .= empty($sql) ?  "password = '" . $password_crypte . "'" : (", password = '" . $password_crypte) . "'";
+    }
+
+    // die("UPDATE user SET " . $sql);
+
+    try {
+        $req = $bdd->connection->prepare("UPDATE user SET " . $sql . " WHERE id = :id"); 
+        $req->bindParam(':id', $user_id, PDO::PARAM_STR);
+        $update_successfull = $req->execute();
+
+        if($update_successfull){
+            return true;
+        } else {
+            return false;
+        }
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}
+
 // Mettre a jour le statut de l'utilisateur
 function updateUserStatus($user_id, $statuts) {
     $bdd = Database::getInstance(); 
@@ -195,6 +254,7 @@ function updateUserStatus($user_id, $statuts) {
     $id = isset($user_id) ? $user_id : null;
     $statuts = isset($statuts) ? $statuts : null;
 
+    // var_dump($statuts); die;
 
     try {
         $req = $bdd->connection->prepare("UPDATE user SET statuts = :statuts WHERE id = :id"); 
@@ -226,29 +286,6 @@ function disconnect($user_id) {
 
         // On retourne l'etat de l'operation de mise a jour : true ou false
         return  $update_successfull;
-    } catch(Exception $e) {
-        die('Erreur : '.$e->getMessage());
-    }
-}
-
-// Activation d'un utilisateur
-function userActivation($user_id, $isActivated) {
-    $bdd = Database::getInstance();
-    
-    $activated = $isActivated == true ? 1 : 0; 
-    
-    try {
-        $req = $bdd->connection->prepare("UPDATE user SET activated = :activated WHERE id = :id"); 
-        $req->bindParam(':activated', $activated, PDO::PARAM_INT); 
-        $req->bindParam(':id', $user_id, PDO::PARAM_STR); 
-        
-        $update_successfull = $req->execute();
-
-        if($update_successfull){
-            return true;
-        } else {
-            return false;
-        }
     } catch(Exception $e) {
         die('Erreur : '.$e->getMessage());
     }

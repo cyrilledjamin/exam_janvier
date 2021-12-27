@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="./views/css/style.css" />
     <title>Projet Janvier</title>
   </head>
-  <body>
+  <body class="h-100">
     <!-- Navbar -->
     <nav class="py-3 navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
       <div class="container">
@@ -53,8 +53,8 @@
                         <?php endif; ?>
                         <li><a class="dropdown-item" href="index.php?page=settings">Mon Compte</a></li>
                         <li><a class="dropdown-item" href="index.php?page=logout">Déconnexion</a></li>
-                    <?php else: ?>
-                    <li><a class="dropdown-item" href="index.php?page=login">Vous connecter</a></li>
+                        <?php else: ?>
+                        <li><a class="dropdown-item" href="index.php?page=login">Vous connecter</a></li>
                     <?php endif; ?>
                 </ul>
             </li>

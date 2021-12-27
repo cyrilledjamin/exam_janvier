@@ -4,15 +4,19 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+include_once('models/user.php');
+
 $signup_errors = [];
 $signup_correct_data = [];
-
-include_once('models/user.php');
 
 if(isset($_SESSION['user'])){
     header('Location: index.php?page=dashboard');
 } else if(isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['repassword'])) {
-       
+   
+    // $signup_correct_data['prenom'] = $_POST['prenom'];
+    // $signup_correct_data['nom'] = $_POST['nom'];
+    // $signup_correct_data['phone'] = $_POST['phone'];
+    
     // Validation du prenom
     if(empty(trim($_POST['prenom']))) {
         $signup_errors['prenom'] = "Ce champ ne peut être vide";
@@ -30,7 +34,7 @@ if(isset($_SESSION['user'])){
     // Validation du numero de telephone
     $phone = trim($_POST['phone']);
 
-    if(preg_match('/((^(\+32|0)\d{3})-?\d{6})/', $phone)) {
+    if(preg_match('/^\+\d+$/', $phone)) {
         $signup_correct_data['phone'] = $phone;
     } else {
         $signup_errors['phone'] = "Numéro de téléphone invalide";

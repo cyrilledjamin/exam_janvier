@@ -1,6 +1,6 @@
 <?php include_once(__DIR__ . '/../partials/header.php'); ?>
 
-    <main class='container main-container'>
+    <main class='main-content container main-container'>
       <h1><?= $_SESSION['user']['isconnected'] == 'Root' ? "Liste des tâches" : "Mes tâches" ?></h1>
       <!-- Button trigger modal -->
       <?php if($_SESSION['user']['isconnected'] == 'Root' || $_SESSION['user']['isconnected'] == 'Client'): ?>
@@ -45,7 +45,7 @@
                 <td><?= $tache["date_fin"] ?></td>
                 <td><?= $tache["prenom_auteur"] . " " . $tache["nom_auteur"] ?></td>
                 <td>
-                    <?php if(isset($tache["id_user"])) { echo $tache["prenom_executant"] . " " . $tache["nom_executant"]; } else { ?> <em>Aucun</em> <a onclick="setTask('<?= HOST_URL ?>', <?= $tache['id'] ?>)" class='cursor-pointer'><i class='bi bi-plus-circle-dotted text-info'></i></a> <?php } ?>
+                    <?php if(isset($tache["id_utilisateur"])) { echo $tache["prenom_executant"] . " " . $tache["nom_executant"]; } else { ?> <em>Aucun</em> <a onclick="setTask('<?= HOST_URL ?>', <?= $tache['id'] ?>)" class='cursor-pointer'><i class='bi bi-plus-circle-dotted text-info'></i></a> <?php } ?>
                 </td>
                 <td><?php if($tache["etat"] == 'EnCours') { echo "En cours"; } else if($tache["etat"] == 'EnAttente') { echo "En attente"; } else { echo "Terminé"; } ?></td>
                 <td>
@@ -74,7 +74,7 @@
                 <td><?= $tache["date_debut"] ?></td>
                 <td><?= $tache["date_fin"] ?></td>
                 <td><?= $tache["prenom_auteur"] . " " . $tache["nom_auteur"] ?></td>
-                <td><?= isset($tache["id_user"]) ? $tache["prenom_executant"] . " " . $tache["nom_executant"] : "<em>Aucun</em>" ?></td>
+                <td><?= isset($tache["id_utilisateur"]) ? $tache["prenom_executant"] . " " . $tache["nom_executant"] : "<em>Aucun</em>" ?></td>
                 <td><?php if($tache["etat"] == 'EnCours') { echo "En cours"; } else if($tache["etat"] == 'EnAttente') { echo "En attente"; } else { echo "Terminé"; } ?></td>
                 <td>
                     <a href="#" onclick='showModal(<?= $tache["id"] ?>, <?= json_encode($tache) ?>)'>
@@ -92,7 +92,7 @@
             <?php endif; ?>
 
             <!-- Cas du Travailleur -->
-            <?php if($_SESSION['user']['isconnected'] == 'Travailleur' && $tache["id_user"] == $_SESSION["user"]["id"]) : ?>
+            <?php if($_SESSION['user']['isconnected'] == 'Travailleur' && $tache["id_utilisateur"] == $_SESSION["user"]["id"]) : ?>
             <tr class="<?php if($tache["etat"] == "Terminee") { echo "task-done-bg"; } if($tache["etat"] == "EnCours") { echo "task-going-bg"; } ?>">
                 <td><?= $tache["name"] ?></td>
                 <td><?= $tache["description"] ?></td>
@@ -126,7 +126,7 @@
                 <select id="id_liste_travailleurs" class="form-select form-select-sm" aria-label=".form-select-sm example">
                     <option value="0" selected>Choisir un travailleur</option>
                     <?php foreach($travailleurs as $travailleur): ?>
-                    <?php if(count(unserialize($travailleur["statuts"])) == 1 && unserialize($travailleur["statuts"])[0] == 'Travailleur' && $travailleur["activated"] == 1): ?>
+                    <?php if(count(unserialize($travailleur["statuts"])) == 1 && unserialize($travailleur["statuts"])[0] == 'Travailleur' && $travailleur["activated"]  == 1): ?>
                     <option value="<?= $travailleur['id'] ?>"><?= $travailleur['first_name'] . " " . $travailleur['last_name'] ?></option>
                     <?php endif; ?>
                     <?php endforeach; ?>
@@ -202,5 +202,25 @@
             </div>
         </div>
     </div>
+
+
+      <!--  BOUTON DE CHAT -->
+      <!-- <div class="position-fixed bottom-0 end-0">
+        <input type="checkbox" id="check"> 
+        <label class="chat-btn" for="check"> 
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chat-dots" viewBox="0 0 16 16">
+            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+            <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"></path>
+            </svg>
+        </label>
+        <div class="wrapper">
+            <div class="header">
+            <h6>Let's Chat - Online</h6>
+            </div>
+            <div class="text-center p-2"> <span>Please fill out the form to start chat!</span> </div>
+            <div class="chat-form"> <input type="text" class="form-control" placeholder="Name"> <input type="text" class="form-control" placeholder="Email"> <textarea class="form-control" placeholder="Your Text Message"></textarea> <button class="btn btn-success btn-block">Submit</button> </div>
+        </div>
+      </div> -->
+      <!-- FIN BOUTON DE CHAT --> 
 
 <?php include_once(__DIR__ . '/../partials/footer.php'); ?>

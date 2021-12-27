@@ -14,7 +14,7 @@ function getTasks() {
             T.date_fin,
             T.etat,
             T.commanditaire,
-            T.id_user,
+            T.id_utilisateur ,
             E.id 'id_executant',
             E.first_name 'prenom_executant',
             E.last_name 'nom_executant',
@@ -24,10 +24,12 @@ function getTasks() {
 
             FROM tache T
             LEFT JOIN user U ON T.commanditaire=U.id
-            LEFT JOIN user E ON T.id_user=E.id
+            LEFT JOIN user E ON T.id_utilisateur=E.id
         "); 
         $req->execute();
         $tasks = $req->fetchAll(); 
+
+        // var_dump($tasks); die;
 
         return $tasks;
 
@@ -66,11 +68,10 @@ function addTask($nomTache, $emmeteur, $descriptionTache, $dateDebutTache, $date
     $bdd = Database::getInstance(); 
     $etat_tache = 'EnAttente';
     $emmeteur = intval($emmeteur);
-    // $id_utilisateur = null;
 
     try {
         $bdd->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,TRUE);
-        $req = $bdd->connection->prepare("INSERT INTO tache (name, description, date_debut, date_fin, etat, commanditaire, id_user) VALUES (:nom_tache, :description_tache, :date_debut_tache, :date_fin_tache, :etat_tache, :emmeteur, NULL)"); 
+        $req = $bdd->connection->prepare("INSERT INTO tache (name, description, date_debut, date_fin, etat, commanditaire, id_utilisateur) VALUES (:nom_tache, :description_tache, :date_debut_tache, :date_fin_tache, :etat_tache, :emmeteur, NULL)"); 
         $req->bindParam(':nom_tache', $nomTache, PDO::PARAM_STR); 
         $req->bindParam(':description_tache', $descriptionTache, PDO::PARAM_STR); 
         $req->bindParam(':date_debut_tache', $dateDebutTache, PDO::PARAM_STR); 
@@ -94,7 +95,8 @@ function addTask($nomTache, $emmeteur, $descriptionTache, $dateDebutTache, $date
 
 // Terminer une tache (Mise a jour de l'etat)
 function terminerTache($id_tache) {
-    $bdd = Database::getInstance();
+    $bdd = Database::getInstance(); 
+    // var_dump( $nomTache); die;
 
     try {
         $req = $bdd->connection->prepare("UPDATE tache SET etat = 'Terminee' WHERE id = :id");   
@@ -116,7 +118,7 @@ function attribuerTache($idTache, $idUser) {
     $bdd = Database::getInstance();
 
     try {
-        $req = $bdd->connection->prepare("UPDATE tache SET id_user = :id_user, etat='EnCours' WHERE id = :id"); 
+        $req = $bdd->connection->prepare("UPDATE tache SET id_utilisateur = :id_user, etat='EnCours' WHERE id = :id"); 
         $req->bindParam(':id_user', $idUser, PDO::PARAM_STR);  
         $req->bindParam(':id', $idTache, PDO::PARAM_STR);  
         $update_successfull = $req->execute();
@@ -134,6 +136,7 @@ function attribuerTache($idTache, $idUser) {
 // Mettre a jour une tache
 function updateTask($id_tache, $nomTache, $descriptionTache, $dateDebutTache, $dateFinTache) {
     $bdd = Database::getInstance(); 
+    // var_dump( $nomTache); die;
 
     try {
         $req = $bdd->connection->prepare("UPDATE tache SET name = :name, description = :description, date_debut = :date_debut, date_fin = :date_fin WHERE id = :id"); 

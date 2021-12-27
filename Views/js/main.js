@@ -285,8 +285,26 @@
      }
    });
  
+   // *********************************************************************************************************************************************************************
+   /**
+    *  Fin Fonctions
+    */
+   // *********************************************************************************************************************************************************************
+ 
    // Afficher la fenetre modale
    attribuerTacheModalPopup.show();
+ }
+ 
+ // Modifier un element de la page de settings
+ function editElement(element, inputId, associatedId = null) {
+   let elementToEdit = element.querySelector("#" + inputId);
+ 
+   elementToEdit.disabled = !elementToEdit.disabled;
+ 
+   if (associatedId) {
+     let associateToEdit = document.querySelector("#" + associatedId);
+     associateToEdit.disabled = !associateToEdit.disabled;
+   }
  }
  
  // #######################################################################################################################################################################
