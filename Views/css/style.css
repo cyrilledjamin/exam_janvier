@@ -1,10 +1,8 @@
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 .main-container {
-  /* width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
   padding-top: 100px;
 }
 
@@ -33,4 +31,12 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.task-done-bg {
+  background-color: #a7e1c6;
+}
+
+.task-going-bg {
+  background-color: #f1d274d1;
 }

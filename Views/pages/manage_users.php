@@ -7,14 +7,14 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th class="text-center" scope="col">#</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Email</th>
                     <th scope="col">Statuts</th>
-                    <th scope="col">Connected / Disconnected</th>
-                    <th scope="col">Nbre de tâches</th>
+                    <th class="text-center" scope="col">Nbre de tâches</th>
                     <th scope="col">Activé</th>
+                    <th class="text-center" scope="col">Etat</th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,14 +27,22 @@
                     <td><?= $user["last_name"] ?></td>
                     <td><?= $user["email"] ?></td>
                     <td><?= implode(" - ", unserialize($user["statuts"])) ?></td>
-                    <td align="center"><?php if($user["isconnected"] == 'Disconnected'){ echo "Non"; }else{echo "Oui"; } ?></td>
-                    <td><?= $user['nbre_taches'] ?></td>
+                    <td class="text-center"><?= $user['nbre_taches'] ?></td>
                     <td>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" onchange="activerUtilisateur(this, <?= $user['id'] ?>)" type="checkbox" name="activer_user_<?= $user['id'] ?>" id="id_activer_user_<?= $user['id'] ?>" <?php  if ($user['isconnected'] == 'Root' && $user["activated"] == 1) { echo "checked disabled"; } else { if ($user["activated"] == 1) { echo "checked"; } } ?> />
+                            <input class="form-check-input" data-host="<?= HOST_URL ?>" onchange="activerUtilisateur(this, <?= $user['id'] ?>)" type="checkbox" name="activer_user_<?= $user['id'] ?>" id="id_activer_user_<?= $user['id'] ?>" <?php  if ($_SESSION['user']['id'] == $user["id"]) { echo "checked disabled"; } else { if ($user["activated"] == 1) { echo "checked"; } } ?> />
                         </div>
                     </td>
-                    <td><a href="index.php?page=user_edit&user_id=<?= $user["id"] ?>" class="btn btn-primary" ><i class="bi bi-pencil-square"></i></a></td>
+                    <td class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $user['isconnected'] == 'Disconnected' ? '#961320' : 'green' ?>" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="8"></circle>
+                        </svg>
+                    </td>
+                    <td>
+                        <a href="index.php?page=user_edit&user_id=<?= $user["id"] ?>">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
                 </tr>
 
                 <?php endforeach; ?>
