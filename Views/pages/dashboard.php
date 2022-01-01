@@ -49,7 +49,7 @@
                 </td>
                 <td><?php if($tache["etat"] == 'EnCours') { echo "En cours"; } else if($tache["etat"] == 'EnAttente') { echo "En attente"; } else { echo "Terminé"; } ?></td>
                 <td>
-                    <a href="#" class="<?= $tache["etat"] == 'Terminee' ? 'pe-non' : '' ?>e" onclick='<?php if($tache["etat"] != 'Terminee') { echo "showModal(" . $tache["id"] . ", " . json_encode($tache) . ")"; } ?>'>
+                    <a href="#" class="<?= $tache["etat"] == 'Terminee' ? 'pe-none' : '' ?>" onclick='<?php if($tache["etat"] != 'Terminee') { echo "showModal(" . $tache["id"] . ", " . json_encode($tache) . ")"; } ?>'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<?= $tache["etat"] == 'Terminee' ? '#838688' : '#0d6efd' ?>" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
@@ -211,12 +211,15 @@
             </svg>
         </button>
 
-        <div class="chat-popup">
+        <div data-user="<?= $_SESSION['user']['id'] ?>" class="chat-popup">
+            <!-- <div class="badge">1</div> -->
             <div class="chat-area">
+                <?php if($_SESSION['user']['id'] != 1): ?>
                 <div class="income-msg">
-                    <img src="./Views/img/person.jpg" class="avatar" alt="root">
+                    <img src="./Views/img/root.jpg" class="avatar" alt="root">
                     <span class="msg"> Salut, Puis-je t'aider?</span>
-                </div>   
+                </div>
+                <?php endif; ?>   
             </div>
 
             <div class="input-area">
