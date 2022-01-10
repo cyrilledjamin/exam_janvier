@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 22 déc. 2021 à 22:35
+-- Généré le : lun. 10 jan. 2022 à 10:35
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -20,6 +20,39 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `djamin-exam`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE IF NOT EXISTS `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contenu` text NOT NULL,
+  `emetteur` int(11) NOT NULL,
+  `destinataire` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `messages`
+--
+
+INSERT INTO `messages` (`id`, `contenu`, `emetteur`, `destinataire`) VALUES
+(1, 'aGVsbG8=', 5, 1),
+(2, 'Ym9uam91cg==', 1, 5),
+(3, 'Y29tbWVudCB2b3VzIGFpZGV6', 1, 5),
+(4, 'c2FsdXQ=', 3, 1),
+(5, 'c2FsdXQ=', 5, 1),
+(6, 'ZmZm', 5, 1),
+(7, 'b3Vp', 1, 5),
+(8, 'b3Vp', 4, 1),
+(9, 'c2FsdXQ=', 3, 1),
+(10, 'c2FsdXQ=', 3, 1),
+(11, 'c2FsdXQ=', 3, 1),
+(12, 'b3VpIGVuIHF1b2kgdm91cyBhaWRleg==', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -50,20 +83,21 @@ CREATE TABLE IF NOT EXISTS `tache` (
   `date_fin` varchar(255) NOT NULL,
   `etat` enum('EnCours','Terminee','EnAttente') NOT NULL DEFAULT 'EnCours',
   `commanditaire` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
+  `id_utilisateur` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_user` (`id_user`),
+  KEY `fk_user` (`id_utilisateur`),
   KEY `fk_commanditaire` (`commanditaire`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `tache`
 --
 
-INSERT INTO `tache` (`id`, `name`, `description`, `date_debut`, `date_fin`, `etat`, `commanditaire`, `id_user`) VALUES
-(1, 'Dépannage', 'dépannage machine à laver', '17-12-2021', '18-12-2021', 'EnAttente', 1, NULL),
+INSERT INTO `tache` (`id`, `name`, `description`, `date_debut`, `date_fin`, `etat`, `commanditaire`, `id_utilisateur`) VALUES
 (2, 'Développement ', 'création app', '23-12-2021', '24-12-2021', 'Terminee', 1, 4),
-(3, 'Corrections', 'correction des taches', '17-12-2021', '23-12-2021', 'EnCours', 3, 4);
+(3, 'Corrections', 'correction des taches', '17-12-2021', '23-12-2021', 'EnCours', 3, 5),
+(4, 'programmer', 'App SiteWeb', '25-12-2021', '26-12-2021', 'EnCours', 1, 4),
+(7, 'Correction', 'developpement', '26-12-2021', '01-01-2022', 'EnAttente', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -83,17 +117,18 @@ CREATE TABLE IF NOT EXISTS `user` (
   `statuts` varchar(255) NOT NULL,
   `activated` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `user`
 --
 
 INSERT INTO `user` (`id`, `last_name`, `first_name`, `email`, `phone`, `password`, `isconnected`, `statuts`, `activated`) VALUES
-(1, 'cyrille', 'Djamin', 'cyrilledjamin@yahoo.fr', '0486027517', '$2y$10$WQO1qj6gv0OvYHhbCWTwi.GH9Gcls3pIFJ2jZuRl3oP9uLhp6nSNy', 'Root', 'a:2:{i:0;s:11:\"Travailleur\";i:1;s:4:\"Root\";}', 1),
-(2, 'Kenne', 'Gaus', 'djamincyrille1@gmail.com', '+32486027517', '$2y$10$gnfhnaf7A963F.UlH9qi.Os1ew4Xu.JNPYKuumIFeFLj7ItZbuiYC$2y$10$YFBN7aCxYbTEK0.P2nybiOhyDrtiJwcH5wktWNLpMBECO6iibi1rq', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 0),
-(3, 'Emaga', 'Alain', 'alaincesar@hotmail.fr', '+32486027518', '$2y$10$YFBN7aCxYbTEK0.P2nybiOhyDrtiJwcH5wktWNLpMBECO6iibi1rq', 'Disconnected', 'a:1:{i:0;s:6:\"Client\";}', 0),
-(4, 'gaus', 'kenne', 'cyrilledjamin@yahoo.com', '+32486027517', '$2y$10$aMBwJQ/UXmHMhfaCvB4/..tm80h9xQw50SDuTu5LObVBqlAAnxI1i', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 0);
+(1, 'cyrille gaus', 'Djamin', 'cyrilledjamin@yahoo.fr', '0486027517', '$2y$10$dzg/jTlIQD3WkvCig35bUe5f4OWkKUpHOKHmFSADd3glUn1qtfPwe', 'Disconnected', 'a:1:{i:0;s:4:\"Root\";}', 1),
+(2, 'Kenne', 'Gaus', 'djamincyrille1@gmail.com', '+32486027517', '$2y$10$gnfhnaf7A963F.UlH9qi.Os1ew4Xu.JNPYKuumIFeFLj7ItZbuiYC$2y$10$YFBN7aCxYbTEK0.P2nybiOhyDrtiJwcH5wktWNLpMBECO6iibi1rq', 'Disconnected', 'a:0:{}', 0),
+(3, 'Emaga', 'Alain', 'alaincesar@hotmail.fr', '+32486027518', '$2y$10$YFBN7aCxYbTEK0.P2nybiOhyDrtiJwcH5wktWNLpMBECO6iibi1rq', 'Disconnected', 'a:1:{i:0;s:6:\"Client\";}', 1),
+(4, 'gaus', 'kenne', 'cyrilledjamin@yahoo.com', '+32486027517', '$2y$10$aMBwJQ/UXmHMhfaCvB4/..tm80h9xQw50SDuTu5LObVBqlAAnxI1i', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 1),
+(5, 'Brevers', 'Christophe', 'chris@tophe.fr', '+32456875555', '$2y$10$zsjCMrgjn90cR2ZWE7uruuap.1jIH3A8BhfqV/QDRkB1FGEtkfWO.', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 1);
 
 --
 -- Contraintes pour les tables déchargées
@@ -104,7 +139,7 @@ INSERT INTO `user` (`id`, `last_name`, `first_name`, `email`, `phone`, `password
 --
 ALTER TABLE `tache`
   ADD CONSTRAINT `fk_commanditaire` FOREIGN KEY (`commanditaire`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
