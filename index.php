@@ -34,6 +34,8 @@ if (!isset($_GET['page']) OR $_GET['page'] == 'index') {
     include_once('Controllers/task_delete.php');
 } elseif($_GET['page'] == 'logout'){
     include_once('Controllers/logout.php');
+} elseif($_GET['page'] == 'user_delete'){ //delete user
+    include_once('Controllers/user_delete.php');
 }
 else {
     header('Location: index.php');

@@ -290,3 +290,20 @@ function disconnect($user_id) {
         die('Erreur : '.$e->getMessage());
     }
 }
+
+// Supprimer une tache
+function deleteUser($user_id) {
+    $bdd = Database::getInstance(); 
+
+    $id = isset($user_id) ? $user_id : null;
+
+    try {
+        $req = $bdd->connection->prepare("DELETE FROM user WHERE id = :id"); 
+        $req->bindParam(':id', $id, PDO::PARAM_STR); 
+        $req->execute();
+
+        return true;
+    } catch(Exception $e) {
+        die('Erreur : '.$e->getMessage());
+    }
+}

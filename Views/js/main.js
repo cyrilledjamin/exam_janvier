@@ -50,7 +50,7 @@
        location.href = destinationController + "?page=manage_users";
      }, 500);
    }
- }
+  }
  
  // Cette fonction Ajoute une nouvelle tache ou modifie une tache existante en fonction du parametre << tache >> qui a pour valeur par defaut << null >>
  function addTask() {
@@ -283,7 +283,7 @@
      } else {
        alert("Veuillez choisir un travailleur !!!");
      }
-   });
+   });  
  
    // *********************************************************************************************************************************************************************
    /**
@@ -294,18 +294,41 @@
    // Afficher la fenetre modale
    attribuerTacheModalPopup.show();
  }
+    // Suppriner un User
+    function supprimerUser(data_host, id) {
+      const destinationController = "http://" + data_host;
+
+      const remove = confirm("Suppprimer la l'utilisateur ?");
+
+      if (remove) {
+        // Supprimer l'utilisateur si le root confirme
+        sendAjax(
+          { id: id },
+          destinationController + "?page=user_delete",
+          "POST",
+          function (err, data) {
+            if (err) {
+              throw err;
+            }
+            console.log("ok");
+            console.log(data);
+          }
+        );
+        location.href = destinationController + "?page=manage_users";
+      }
+    }
  
- // Modifier un element de la page de settings
- function editElement(element, inputId, associatedId = null) {
-   let elementToEdit = element.querySelector("#" + inputId);
- 
-   elementToEdit.disabled = !elementToEdit.disabled;
- 
-   if (associatedId) {
-     let associateToEdit = document.querySelector("#" + associatedId);
-     associateToEdit.disabled = !associateToEdit.disabled;
-   }
- }
+  // Modifier un element de la page de settings
+  function editElement(element, inputId, associatedId = null) {
+    let elementToEdit = element.querySelector("#" + inputId);
+  
+    elementToEdit.disabled = !elementToEdit.disabled;
+  
+    if (associatedId) {
+      let associateToEdit = document.querySelector("#" + associatedId);
+      associateToEdit.disabled = !associateToEdit.disabled;
+    }
+  }
  
  // #######################################################################################################################################################################
  

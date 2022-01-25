@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 10 jan. 2022 à 10:35
+-- Généré le : mar. 25 jan. 2022 à 19:44
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `emetteur` int(11) NOT NULL,
   `destinataire` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `messages`
@@ -52,7 +52,9 @@ INSERT INTO `messages` (`id`, `contenu`, `emetteur`, `destinataire`) VALUES
 (9, 'c2FsdXQ=', 3, 1),
 (10, 'c2FsdXQ=', 3, 1),
 (11, 'c2FsdXQ=', 3, 1),
-(12, 'b3VpIGVuIHF1b2kgdm91cyBhaWRleg==', 1, 3);
+(12, 'b3VpIGVuIHF1b2kgdm91cyBhaWRleg==', 1, 3),
+(13, 'b3Vp', 3, 1),
+(14, 'aWs=', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -87,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `tache` (
   PRIMARY KEY (`id`),
   KEY `fk_user` (`id_utilisateur`),
   KEY `fk_commanditaire` (`commanditaire`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `tache`
@@ -117,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `statuts` varchar(255) NOT NULL,
   `activated` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `user`
@@ -125,10 +127,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `last_name`, `first_name`, `email`, `phone`, `password`, `isconnected`, `statuts`, `activated`) VALUES
 (1, 'cyrille gaus', 'Djamin', 'cyrilledjamin@yahoo.fr', '0486027517', '$2y$10$dzg/jTlIQD3WkvCig35bUe5f4OWkKUpHOKHmFSADd3glUn1qtfPwe', 'Disconnected', 'a:1:{i:0;s:4:\"Root\";}', 1),
-(2, 'Kenne', 'Gaus', 'djamincyrille1@gmail.com', '+32486027517', '$2y$10$gnfhnaf7A963F.UlH9qi.Os1ew4Xu.JNPYKuumIFeFLj7ItZbuiYC$2y$10$YFBN7aCxYbTEK0.P2nybiOhyDrtiJwcH5wktWNLpMBECO6iibi1rq', 'Disconnected', 'a:0:{}', 0),
 (3, 'Emaga', 'Alain', 'alaincesar@hotmail.fr', '+32486027518', '$2y$10$YFBN7aCxYbTEK0.P2nybiOhyDrtiJwcH5wktWNLpMBECO6iibi1rq', 'Disconnected', 'a:1:{i:0;s:6:\"Client\";}', 1),
 (4, 'gaus', 'kenne', 'cyrilledjamin@yahoo.com', '+32486027517', '$2y$10$aMBwJQ/UXmHMhfaCvB4/..tm80h9xQw50SDuTu5LObVBqlAAnxI1i', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 1),
-(5, 'Brevers', 'Christophe', 'chris@tophe.fr', '+32456875555', '$2y$10$zsjCMrgjn90cR2ZWE7uruuap.1jIH3A8BhfqV/QDRkB1FGEtkfWO.', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 1);
+(5, 'Brevers', 'Christophe', 'chris@tophe.fr', '+32456875555', '$2y$10$zsjCMrgjn90cR2ZWE7uruuap.1jIH3A8BhfqV/QDRkB1FGEtkfWO.', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 1),
+(6, 'kenne', 'kenne', 'cyrille@yahoo.fr', '+32486027517', '$2y$10$DswsMn4SUzO85RRO66NxY.USIePpa1Hus9HvkmNJ2UQL0yEbvsEHC', 'Disconnected', 'a:1:{i:0;s:11:\"Travailleur\";}', 0),
+(7, 'hilt', 'hilt', 'gaus@yahoo.fr', '+32486027517', '$2y$10$Bgx/tHW3F82gTgk/QfhDFeaVAt.TZe1A0Q0SwtXH6budk/W9oFumu', 'Disconnected', 'a:1:{i:0;s:6:\"Client\";}', 0);
 
 --
 -- Contraintes pour les tables déchargées
