@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include_once('Models/user.php');
+include_once('models/user.php');
 
 $login_errors = "";
 $signup_success = "";
