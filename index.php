@@ -10,32 +10,32 @@ if (session_status() == PHP_SESSION_NONE) {
     }
 }
 
-include_once('Models/db_connection.php');
+include_once('models/db_connection.php');
 
 define("HOST_URL", $_SERVER['SERVER_NAME'] . explode("?", $_SERVER["REQUEST_URI"])[0]);
 
 if (!isset($_GET['page']) OR $_GET['page'] == 'index') {
-    include_once('Controllers/index.php');
+    include_once('controllers/index.php');
 } elseif($_GET['page'] == 'login'){
-    include_once('Controllers/login.php');
+    include_once('controllers/login.php');
 } elseif($_GET['page'] == 'settings'){
-    include_once('Controllers/settings.php');
+    include_once('controllers/settings.php');
 } elseif($_GET['page'] == 'signup'){
-    include_once('Controllers/signup.php');
+    include_once('controllers/signup.php');
 } elseif($_GET['page'] == 'dashboard'){
-    include_once('Controllers/dashboard.php');
+    include_once('controllers/dashboard.php');
 } elseif($_GET['page'] == 'manage_users'){
-    include_once('Controllers/manage_users.php');
+    include_once('controllers/manage_users.php');
 } elseif($_GET['page'] == 'user_edit'){
-    include_once('Controllers/user_edit.php');
+    include_once('controllers/user_edit.php');
 } elseif($_GET['page'] == 'task_add'){
-    include_once('Controllers/task_add.php');
+    include_once('controllers/task_add.php');
 } elseif($_GET['page'] == 'task_delete'){
-    include_once('Controllers/task_delete.php');
+    include_once('controllers/task_delete.php');
 } elseif($_GET['page'] == 'logout'){
-    include_once('Controllers/logout.php');
+    include_once('controllers/logout.php');
 } elseif($_GET['page'] == 'user_delete'){ //delete user
-    include_once('Controllers/user_delete.php');
+    include_once('controllers/user_delete.php');
 }
 else {
     header('Location: index.php');

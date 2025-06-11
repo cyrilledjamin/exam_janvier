@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include_once('Models/user.php');
+include_once('models/user.php');
 
 if(isset($_SESSION['user'])){
     header('Location: index.php?page=dashboard');
