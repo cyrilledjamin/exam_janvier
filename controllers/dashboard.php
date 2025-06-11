@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
     $_SESSION['expire'] = $_SESSION['last_activity'] + (15 * 60);
 }
 
-include_once('Models/taches.php');
-include_once('Models/user.php');
+include_once('models/taches.php');
+include_once('models/user.php');
 
 if(isset($_SESSION['user'])){
     $taches = getTasks();
